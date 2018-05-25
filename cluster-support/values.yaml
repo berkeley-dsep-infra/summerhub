@@ -1,0 +1,16 @@
+prometheus:
+  networkPolicy:
+    enabled: true
+  nodeExporter:
+    updateStrategy:
+      type: RollingUpdate
+    extraArgs:
+      collector.mountstats:
+  alertmanager:
+    enabled: false
+  pushgateway:
+    enabled: false
+  rbac:
+    create: true
+    persistentVolume:
+      storageClass: ssd
