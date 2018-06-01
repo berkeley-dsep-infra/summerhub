@@ -54,8 +54,8 @@ function deploy {
 	# https://docs.travis-ci.com/user/pull-requests/#Pull-Requests-and-Security-Restrictions
 	echo "Fetching gcloud service account credentials..."
 	openssl aes-256-cbc \
-		-K ${encrypted_b00c78b73ea7_key} \
-        -iv ${encrypted_b00c78b73ea7_iv} \
+		-K ${encrypted_a0d548b80a29_key} \
+        -iv ${encrypted_a0d548b80a29_iv} \
 		-in git-crypt.key.enc -out git-crypt.key -d
 	chmod 0400 git-crypt.key
 
