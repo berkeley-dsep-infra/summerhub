@@ -3,6 +3,9 @@ FROM ubuntu:18.04
 ENV APP_DIR /srv/app
 ENV PATH ${APP_DIR}/venv/bin:$PATH
 
+ENV TZ=America/Los_Angeles
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 RUN apt-get update && \
     apt-get install --yes \
             python3.6 \
@@ -13,7 +16,7 @@ RUN apt-get update && \
             git \
             wget \
             npm \
-            nodejs-legacy \
+            nodejs \
             locales \
             nano \
             vim \
