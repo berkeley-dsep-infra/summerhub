@@ -1,5 +1,5 @@
 VERSION=$(shell git rev-parse --short HEAD)
-IMAGE=berkeleydsep/singleuser-datahub
+IMAGE=berkeleydsep/singleuser-summer
 
 release: VERSION=$(shell  git tag -l --points-at HEAD)
 
