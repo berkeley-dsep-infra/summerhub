@@ -1,0 +1,40 @@
+sudo: required
+language: python
+services:
+- docker
+python:
+- 3.6
+
+cache:
+  directories:
+    - "${HOME}/google-cloud-sdk/"
+
+before_install:
+  - "./travis/install-git-crypt.bash"
+  - "./travis/install-helm.bash"
+
+install:
+  - pip install --no-cache-dir pyyaml
+
+script:
+- "./travis/travis-script.bash build"
+
+branches:
+  only:
+    - staging
+    - prod
+
+deploy:
+  provider: script
+  script: ./travis/travis-script.bash deploy
+  on:
+    branch:
+      - staging
+      - prod
+
+env:
+  global:
+    - GCLOUD_ZONE="us-west1-b"
+    - HUB_COURSE="summer"
+    - secure: "lP3FuP6mh2ynTX/1JTeFvS+Rc0Oh0vUyNkmKnhq5gvy0WLbp4yX+hFoByiDEIlR85ta/igrINGJadYn3St2EnPthzq5PgvUfvtTgn6pWDgbGXdg6nTkAWsvdejqpP9NXs2gRtIyTxEapM5IpstpqfJJnu0IG4O//NBvh0fw7D8lCxUHMtyejR0bSayzxGFom9QrLulXrISgvIrq5csw4Q7heyaNy3QcLNvE9oDcN1h++JUlf4xULfINEXvZor+uLoLTOxxZCPHwnRoo/7oOTht+2TCgZ2y8V4c9XK0q0xIlPPoXBAm/heU7GG1vubqWj5F+Jd+UjO8ch2Xuqbtvw4Kninj6TKiAKkT8CaJ4t5vXXbcI/er50f0Np2rfDKP8zWvC343RCVijBA86B7cI9UJirt4e5r6Ly6ZuYjBbWHkpW4TXdYp6WoPZk6GvqBVCnOSi/UzcojRoZdxtYP5P161oM6aYjidZT8+LMl4r1El0Vufgb2NQ60XFNhlVkeBrtijmatrBHmhvsG6nQofs1FRXbacTp54TCHbSG8zSrMBcC1ZfAm08K6dlxkF1RQ5Ohgt4+diB1POfJQlN7vofr9Drw9MoCNyt2N7aoStPFCRKE0P3LnjxrbxoiFHCNGvmj0P4fuxR7uDfDLYdkGMPTx5QndzfdZ7qVUwHu+j8tqT8="
+    - secure: "hZuGB7ADMx/xjhKp0cqMM7M4nWKg2qc3GTRROrU8mKSseFbNt46V0xN23g+dKHmDmuiZz2j99rt/AzxRfMkqnCzEQJE1T8KcQy/W1svI6sgQSq+4sJscwgaMIV1XYI9Y1QB+wlYvZpwKFsBG3+Z8ODtAoz4n2e+94eVOGZ3OZfu6UKGshEpAy0QJiAzJH6E9wTc98Rg9Um9sQJ5M5aTtoLQjmK1ioA7G5xwa7wQt67IL/BUDchDhtjI8+dqydB1ryrl7XblDSl/IZadw3UDr5GESWHCWPHFy3yY5vmriulUSt5vqobYTl1J4C1uCafQe90Bh+0iIAl338mc+4620WoOFN11OPAmji0/X0BLUUckNRdllXcdtmPXIBirmu9uozFJcImfAxkz+JajjV4WNMLV8Vv44jAtXDK3EQmfPRWTDuo9Zb3GwHfkIyA7u/WUbhzIo/h8TRL7Vsu6epD3P9YLpvP0Ld2SqYr7xG4XO8qGcoF+dMsBB2/1gzFm/4v69SYdNSu/pPRBf5NnurfUYT1Zi0EHL2tzFagSpbNH/3Rj6MdkkfIPEIyoT1xtWsLoM1wT9d8eE8eOfvtE9P2Y6PD3y8wRPX/vgp2UqscW7h1uM0aa+5dJ0Z1Vs7bmkRdHLMz6ymO2k5PSlJyXcHSZmEd+zU12T6aGxpwDKg6MEjqg="
