@@ -29,29 +29,6 @@ hub:
 
         return (yield super().start())
     c.JupyterHub.spawner_class = CustomKubeSpawner
-    c.CustomKubeSpawner.singleuser_extra_pod_config = {
-      'affinity': {
-        'podAffinity': {
-          'preferredDuringSchedulingIgnoredDuringExecution': [
-            {
-              'weight': 100,
-              'podAffinityTerm': {
-                'labelSelector': {
-                  'matchExpressions': [
-                    {
-                      'key': 'component',
-                      'operator': 'In',
-                      'values': ['singleuser-server']
-                    }
-                  ]
-                },
-                'topologyKey': 'kubernetes.io/hostname'
-              }
-            }
-          ],
-        }
-      }
-    }
 
 cull:
   enabled: true
