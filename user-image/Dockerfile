@@ -41,6 +41,8 @@ RUN mkdir -p ${APP_DIR} && chown -R jovyan:jovyan ${APP_DIR}
 
 WORKDIR /home/jovyan
 
+RUN apt-get install --yes python3-venv
+
 USER jovyan
 RUN python3.6 -m venv ${APP_DIR}/venv
 
