@@ -47,5 +47,5 @@ singleuser:
   storage:
     capacity: 2Gi
   schedulerStrategy: pack
-  #image:
-  #  name: "berkeleydsep/singleuser-prob140"
+  image:
+    name: "berkeleydsep/singleuser-summer"
