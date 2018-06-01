@@ -13,7 +13,7 @@
 
 set -euo pipefail
 
-CLUSTER="${HUB_COURSE}-${TRAVIS_BRANCH}"
+CLUSTER="{TRAVIS_BRANCH}"
 
 function prepare_gcloud {
     # Install gcloud
