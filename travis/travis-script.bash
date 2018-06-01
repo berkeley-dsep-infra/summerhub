@@ -7,8 +7,8 @@
 # - GCLOUD_ZONE
 # - HUB_COURSE
 # travis project settings:
-# - encrypted_b00c78b73ea7_key (created by 'travis encrypt-file')
-# - encrypted_b00c78b73ea7_iv  (created by 'travis encrypt-file')
+# - encrypted_a0d548b80a29_key (created by 'travis encrypt-file')
+# - encrypted_a0d548b80a29_iv  (created by 'travis encrypt-file')
 # - GCLOUD_PROJECT (manual)
 
 set -euo pipefail
