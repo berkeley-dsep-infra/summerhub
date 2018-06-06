@@ -36,7 +36,7 @@ ENV IPYTHONDIR ${APP_DIR}/venv/etc/ipython
 
 RUN adduser --disabled-password --gecos "Default Jupyter user" jovyan
 
-RUN mkdir -p ${APP_DIR} && chown -R jovyan:jovyan ${APP_DIR}
+RUN install -d -o jovyan -g jovyan ${APP_DIR}
 
 WORKDIR /home/jovyan
 
