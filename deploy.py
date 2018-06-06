@@ -16,6 +16,11 @@ import yaml
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
+def gcloud(*args, **kwargs):
+    arg0 = 'gcloud'
+    logging.info("Executing " + arg0 + " " + ' '.join(args))
+    return subprocess.check_call([arg0] + list(args), **kwargs)
+
 def git(*args, **kwargs):
     return subprocess.check_output(['git'] + list(args))
 
@@ -44,6 +49,9 @@ def build_user_image(image_name, commit_range=None, push=False):
         if not image_touched:
             print("user-image not touched, not building")
             return
+
+    # Use gcloud as docker credential helper
+    gcloud('--quiet', 'auth', 'configure-docker' )
 
     # Pull last available version of image to maximize cache use
     try_count = 0
