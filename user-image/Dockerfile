@@ -51,11 +51,11 @@ RUN pip install --no-cache-dir \
       ipywidgets==7.2.1 \
       jupyterlab==0.32.1
 
-RUN jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
-    jupyter serverextension enable --py jupyterlab --sys-prefix
-
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+RUN jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
+    jupyter serverextension enable --py jupyterlab --sys-prefix
 
 # nbresuse to show users memory usage
 RUN pip install git+https://github.com/data-8/nbresuse.git@2f9144f && \
