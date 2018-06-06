@@ -102,7 +102,7 @@ def main():
     argparser = argparse.ArgumentParser()
     argparser.add_argument(
         '--user-image-spec',
-        default='berkeleydsep/singleuser-datahub'
+        default='gcr.io/smooth-calling-205216/singleuser-datahub'
     )
     subparsers = argparser.add_subparsers(dest='action')
 
