@@ -51,7 +51,7 @@ def build_user_image(image_name, commit_range=None, push=False):
             return
 
     # Use gcloud as docker credential helper
-    gcloud('--quiet', 'auth', 'configure-docker' )
+    gcloud('--quiet', 'beta', 'auth', 'configure-docker' )
 
     # Pull last available version of image to maximize cache use
     try_count = 0
