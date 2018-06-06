@@ -18,7 +18,6 @@ RUN apt-get update && \
             npm \
             nodejs \
             locales \
-            nano \
             vim \
             # for nbconvert
             pandoc \
