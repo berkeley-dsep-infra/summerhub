@@ -15,7 +15,7 @@ set -euo pipefail
 
 CLUSTER="${TRAVIS_BRANCH}"
 
-function prepare_gcloud {
+function install_gcloud {
     # Install gcloud
 	if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then
         rm -rf $HOME/google-cloud-sdk
@@ -27,8 +27,35 @@ function prepare_gcloud {
     gcloud --quiet components update kubectl
 }
 
+function configure_gcloud {
+	# Encrypted variables are only set when we are not a PR
+	# https://docs.travis-ci.com/user/pull-requests/#Pull-Requests-and-Security-Restrictions
+	echo "Fetching gcloud service account credentials..."
+	openssl aes-256-cbc \
+		-K ${encrypted_a0d548b80a29_key} \
+        -iv ${encrypted_a0d548b80a29_iv} \
+		-in git-crypt.key.enc -out git-crypt.key -d
+	chmod 0400 git-crypt.key
+
+	git-crypt unlock git-crypt.key
+
+	gcloud auth activate-service-account \
+		--key-file hub/secrets/gcloud-creds.json
+	gcloud config set project ${GCLOUD_PROJECT}
+
+	# Enable docker to access gcr.io
+    gcloud --quiet auth configure-docker
+
+	gcloud container clusters get-credentials --zone=${GCLOUD_ZONE} \
+		${CLUSTER}
+}
+
 function build {
 	echo "Starting build..."
+
+	install_gcloud
+	configure_gcloud
+
 	PUSH=''
 
 	if [[ ${TRAVIS_PULL_REQUEST} == 'false' ]]; then
@@ -49,25 +76,8 @@ function build {
 function deploy {
 	echo "Starting deploy..."
 
-	prepare_gcloud
-
-	# Encrypted variables are only set when we are not a PR
-	# https://docs.travis-ci.com/user/pull-requests/#Pull-Requests-and-Security-Restrictions
-	echo "Fetching gcloud service account credentials..."
-	openssl aes-256-cbc \
-		-K ${encrypted_a0d548b80a29_key} \
-        -iv ${encrypted_a0d548b80a29_iv} \
-		-in git-crypt.key.enc -out git-crypt.key -d
-	chmod 0400 git-crypt.key
-
-	git-crypt unlock git-crypt.key
-
-	gcloud auth activate-service-account \
-		--key-file hub/secrets/gcloud-creds.json
-	gcloud config set project ${GCLOUD_PROJECT}
-
-	gcloud container clusters get-credentials --zone=${GCLOUD_ZONE} \
-		${CLUSTER}
+	install_gcloud
+	configure_gcloud
 
 	echo ./deploy.py deploy ${TRAVIS_BRANCH}
 	./deploy.py deploy ${TRAVIS_BRANCH}
