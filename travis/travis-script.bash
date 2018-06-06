@@ -41,7 +41,7 @@ function build {
 	# https://github.com/travis-ci/travis-ci/issues/2389
 	sudo sysctl net.ipv4.tcp_ecn=0
 
-	cmd="./deploy.py --user-image-spec berkeleydsep/singleuser-summer build --commit-range ${TRAVIS_COMMIT_RANGE} ${PUSH}"
+	cmd="./deploy.py --user-image-spec gcr.io/smooth-calling-205216/singleuser-summer build --commit-range ${TRAVIS_COMMIT_RANGE} ${PUSH}"
 	echo ${cmd}
 	${cmd}
 }
