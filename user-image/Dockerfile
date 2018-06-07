@@ -3,6 +3,9 @@ FROM ubuntu:18.04
 ENV APP_DIR /srv/app
 ENV PATH ${APP_DIR}/venv/bin:$PATH
 
+ENV TZ=America/Los_Angeles
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 RUN apt-get update && \
     apt-get install --yes \
             python3.6 \
@@ -13,9 +16,8 @@ RUN apt-get update && \
             git \
             wget \
             npm \
-            nodejs-legacy \
+            nodejs \
             locales \
-            nano \
             vim \
             # for nbconvert
             pandoc \
@@ -34,9 +36,11 @@ ENV IPYTHONDIR ${APP_DIR}/venv/etc/ipython
 
 RUN adduser --disabled-password --gecos "Default Jupyter user" jovyan
 
-RUN mkdir -p ${APP_DIR} && chown -R jovyan:jovyan ${APP_DIR}
+RUN install -d -o jovyan -g jovyan ${APP_DIR}
 
 WORKDIR /home/jovyan
+
+RUN apt-get install --yes python3-venv
 
 USER jovyan
 RUN python3.6 -m venv ${APP_DIR}/venv
@@ -47,11 +51,11 @@ RUN pip install --no-cache-dir \
       ipywidgets==7.2.1 \
       jupyterlab==0.32.1
 
-RUN jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
-    jupyter serverextension enable --py jupyterlab --sys-prefix
-
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+RUN jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
+    jupyter serverextension enable --py jupyterlab --sys-prefix
 
 # nbresuse to show users memory usage
 RUN pip install git+https://github.com/data-8/nbresuse.git@2f9144f && \
@@ -60,7 +64,7 @@ RUN pip install git+https://github.com/data-8/nbresuse.git@2f9144f && \
 	jupyter nbextension     enable  --sys-prefix --py nbresuse
 
 # interact notebook extension
-RUN pip install --no-cache-dir nbgitpuller==0.3 && \
+RUN pip install git+https://github.com/data-8/nbgitpuller.git@de5a21a && \
 	jupyter serverextension enable  --sys-prefix --py nbgitpuller
 
 # Install nbzip
