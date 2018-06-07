@@ -5,7 +5,7 @@
     - name: install zfsutils-linux
       apt:
         name: zfsutils-linux
-        state: installed
+        state: present
       become: true
 
     - name: check if pool has been created
@@ -16,7 +16,7 @@
 
     - name: create zpool
       shell: "/sbin/zpool create -f {{ pool_name }} -m {{ pool_path }} mirror {{ disks }}"
-      when: pool_exists|failed
+      when: pool_exists is failed
       become: true
 
     - name: install nfs server packages
