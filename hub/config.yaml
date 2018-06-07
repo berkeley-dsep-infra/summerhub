@@ -45,7 +45,14 @@ singleuser:
     guarantee: 1G
     limit: 1G
   storage:
-    capacity: 2Gi
+    type: hostPath
+    extraVolumes:
+      - name: home
+        hostPath:
+          path: /mnt/homes/{username}
+    extraVolumeMounts:
+      - name: home
+        mountPath: /home/jovyan
   schedulerStrategy: pack
   image:
     name: "gcr.io/smooth-calling-205216/singleuser-summer"
