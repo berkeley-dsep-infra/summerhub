@@ -9,14 +9,14 @@
       become: true
 
     - name: check if pool has been created
-      shell: /sbin/zpool status pool0
-      register: pool0_exists
+      shell: "/sbin/zpool status {{ pool_name }}"
+      register: pool_exists
       ignore_errors: True
       become: true
 
-    - name: create pool0
-      shell: /sbin/zpool create -f pool0 mirror /dev/sdb /dev/sdc
-      when: pool0_exists|failed
+    - name: create zpool
+      shell: "/sbin/zpool create -f {{ pool_name }} -m {{ pool_path }} mirror {{ disks }}"
+      when: pool_exists|failed
       become: true
 
     - name: install nfs server packages
