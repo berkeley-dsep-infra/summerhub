@@ -2,10 +2,13 @@
   vars_files:
     - vars.yml
   tasks:
-    - name: install zfsutils-linux
+    - name: install nfs and zfs packages
       apt:
-        name: zfsutils-linux
+        name: {{ item }}
         state: present
+      with_items:
+        - nfs-kernel-server
+        - zfsutils-linux
       become: true
 
     - name: check if pool has been created
@@ -17,12 +20,6 @@
     - name: create zpool
       shell: "/sbin/zpool create -f {{ pool_name }} -m {{ pool_path }} mirror {{ disks }}"
       when: pool_exists is failed
-      become: true
-
-    - name: install nfs server packages
-      apt:
-        name: nfs-kernel-server
-        state: installed
       become: true
 
     - name: add mount path to /etc/exports
