@@ -1,7 +1,5 @@
-VERSION=$(shell git rev-parse --short HEAD)
 IMAGE=gcr.io/smooth-calling-205216/mounter
-
-release: VERSION=$(shell  git tag -l --points-at HEAD)
+VERSION=v5
 
 build:
 	docker build -t $(IMAGE):$(VERSION) .
