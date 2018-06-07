@@ -55,9 +55,9 @@
         recurse: yes
       become: true
 
-    - name: set permissions on /export
+    - name: set permissions on the exported directory
       file:
-        path: /export
+        path: "{{ export_path }}"
         state: directory
         recurse: no
         owner: "{{ anongid }}"
