@@ -30,7 +30,7 @@ function install_gcloud {
 function configure_gcloud {
 	# Encrypted variables are only set when we are not a PR
 	# https://docs.travis-ci.com/user/pull-requests/#Pull-Requests-and-Security-Restrictions
-	echo "Fetching gcloud service account credentials..."
+	echo "Descrypting secrets..."
 	openssl aes-256-cbc \
 		-K ${encrypted_a0d548b80a29_key} \
         -iv ${encrypted_a0d548b80a29_iv} \
@@ -39,13 +39,12 @@ function configure_gcloud {
 
 	git-crypt unlock git-crypt.key
 
+	echo "Activating gloud service account credentials..."
 	gcloud auth activate-service-account \
 		--key-file hub/secrets/gcloud-creds.json
 	gcloud config set project ${GCLOUD_PROJECT}
 
-	# Enable docker to access gcr.io
-    gcloud --quiet auth configure-docker
-
+	echo "Getting cluster credentials..."
 	gcloud container clusters get-credentials --zone=${GCLOUD_ZONE} \
 		${CLUSTER}
 }
@@ -54,14 +53,17 @@ function build {
 	echo "Starting build..."
 
 	install_gcloud
-	configure_gcloud
 
 	PUSH=''
 
 	if [[ ${TRAVIS_PULL_REQUEST} == 'false' ]]; then
 		PUSH='--push'
+
+		configure_gcloud
+
 		# Assume we have secrets!
-		docker login -u $DOCKER_USERNAME -p "$DOCKER_PASSWORD"
+		echo "Enable docker to access gcr.io..."
+		gcloud --quiet auth configure-docker
 	fi
 
 	# Attempt to improve relability of pip installs:
