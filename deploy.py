@@ -91,6 +91,7 @@ def deploy(release):
 
     helm('upgrade', '--install', '--wait',
         release, 'jupyterhub/jupyterhub',
+        '--namespace', release,
         '--version', config['version'],
         '-f', 'hub/config.yaml',
         '-f', os.path.join('hub', 'secrets', release + '.yaml'),
