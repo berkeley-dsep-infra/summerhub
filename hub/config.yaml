@@ -27,18 +27,18 @@ cull:
   enabled: true
   timeout: 3600 # default
 
-auth:
-  type: google
-  admin:
-    users:
-      # infrastructure
-      - rylo
-      - yuvipanda
-      # su18 data8 instructors
-      - deborah_nolan
-      - vinitra
-      - fhdkmrn
-      # sp18 prob140 GSIs
+#auth:
+#  type: google
+#  admin:
+#    users:
+#      # infrastructure
+#      - rylo
+#      - yuvipanda
+#      # su18 data8 instructors
+#      - deborah_nolan
+#      - vinitra
+#      - fhdkmrn
+#      # sp18 prob140 GSIs
 
 singleuser:
   memory:
