@@ -25,7 +25,8 @@ hub:
 
 cull:
   enabled: true
-  timeout: 3600 # default
+  timeout: 3600
+  every: 600
 
 #auth:
 #  type: google
