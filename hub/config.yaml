@@ -25,20 +25,23 @@ hub:
 
 cull:
   enabled: true
-  timeout: 3600 # default
+  timeout: 3600
+  every: 600
 
-#auth:
-#  type: google
-#  admin:
-#    users:
-#      # infrastructure
-#      - rylo
-#      - yuvipanda
-#      # su18 data8 instructors
-#      - deborah_nolan
-#      - vinitra
-#      - fhdkmrn
-#      # sp18 prob140 GSIs
+auth:
+  type: google
+  admin:
+    users:
+      # infrastructure
+      - rylo
+      - yuvipanda
+      # su18 data8 instructors
+      - deborah_nolan
+      - vinitra
+      - fhdkmrn
+      # su18 data8 GSIs
+      - hsubbaraj
+      - rroggenkemper
 
 singleuser:
   memory:
