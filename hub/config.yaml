@@ -37,11 +37,21 @@ auth:
       - yuvipanda
       # su18 data8 instructors
       - deborah_nolan
-      - vinitra
       - fhdkmrn
+      - vinitra
       # su18 data8 GSIs
       - hsubbaraj
       - rroggenkemper
+      # su18 data8 staff
+      - aidandeangelis
+      - clairezhang
+      - howardki888
+      - imaneslami
+      - lillianlouie
+      - liusabrina
+      - narain.rohan
+      - sathviknair
+      - sjamil
 
 singleuser:
   memory:
