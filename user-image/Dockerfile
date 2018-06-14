@@ -45,14 +45,10 @@ RUN apt-get install --yes python3-venv
 USER jovyan
 RUN python3.6 -m venv ${APP_DIR}/venv
 
-RUN pip install --no-cache-dir \
-      notebook==5.5.0 \
-      jupyterhub==0.8.1 \
-      ipywidgets==7.2.1 \
-      jupyterlab==0.32.1
-
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+RUN pip install --no-cache-dir jupyterhub==0.8.1
 
 RUN jupyter nbextension enable --py widgetsnbextension --sys-prefix && \
     jupyter serverextension enable --py jupyterlab --sys-prefix
