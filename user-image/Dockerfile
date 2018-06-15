@@ -61,7 +61,7 @@ RUN pip install git+https://github.com/data-8/nbresuse.git@2f9144f && \
 
 # interact notebook extension
 #RUN pip install git+https://github.com/data-8/nbgitpuller.git@de5a21a && \
-RUN pip install git+https://github.com/data-8/yuvipanda.git@nbversion-fix && \
+RUN pip install git+https://github.com/yuvipanda/nbgitpuller.git@nbversion-fix && \
 	jupyter serverextension enable  --sys-prefix --py nbgitpuller
 
 # Install nbzip
