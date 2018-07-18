@@ -60,12 +60,11 @@ RUN pip install git+https://github.com/data-8/nbresuse.git@2f9144f && \
 	jupyter nbextension     enable  --sys-prefix --py nbresuse
 
 # interact notebook extension
-#RUN pip install git+https://github.com/data-8/nbgitpuller.git@de5a21a && \
-RUN pip install git+https://github.com/yuvipanda/gitautosync.git@nbversion-fix && \
+RUN pip install nbgitpuller==0.6.0 && \
 	jupyter serverextension enable  --sys-prefix --py nbgitpuller
 
 # Install nbzip
-RUN pip install git+https://github.com/data-8/nbzip.git@e41e156 && \
+RUN pip install nbzip==0.0.4 && \
     jupyter serverextension enable  --sys-prefix --py nbzip && \
     jupyter nbextension     install --sys-prefix --py nbzip && \
     jupyter nbextension     enable  --sys-prefix --py nbzip
