@@ -29,6 +29,17 @@ def kubectl(*args, **kwargs):
     logging.info("Executing " + arg0 + " " + ' '.join(args))
     return subprocess.check_call([arg0] + list(args), **kwargs)
 
+def tag_fragment_file(tag):
+    '''We can't use --set because helm converts numeric values to float64
+       https://github.com/kubernetes/helm/issues/1707
+       so we use a fragment file.
+    '''
+    buf = yaml.dump({'singleuser': {'image': {'tag': tag}}})
+    filename = '/tmp/tag-{}.yaml'.format(tag)
+    with open(filename, 'w') as f:
+        f.write(buf)
+    return filename
+
 def last_git_modified(path, n=1):
     return git(
         'log',
@@ -85,6 +96,7 @@ def deploy(release):
     helm('repo', 'update')
 
     singleuser_tag = last_git_modified('user-image')
+    tagfilename = tag_fragment_file(singleuser_tag)
 
     with open('hub/config.yaml') as f:
         config = yaml.safe_load(f)
@@ -95,7 +107,7 @@ def deploy(release):
         '--version', config['version'],
         '-f', 'hub/config.yaml',
         '-f', os.path.join('hub', 'secrets', release + '.yaml'),
-        '--set', 'singleuser.image.tag={}'.format(singleuser_tag)
+        '-f', tagfilename
     )
 
 
